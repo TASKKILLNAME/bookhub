@@ -98,11 +98,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   loginWithOAuth: async (provider: 'google' | 'kakao') => {
+    const options: any = {
+      redirectTo: window.location.origin + '/profile',
+    };
+    if (provider === 'kakao') {
+      options.scopes = 'profile_nickname profile_image';
+    }
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: {
-        redirectTo: window.location.origin + '/profile',
-      },
+      options,
     });
     if (error) throw new Error(error.message);
   },
