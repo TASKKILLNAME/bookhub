@@ -16,6 +16,8 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<{ needsConfirmation: boolean }>;
   loginWithOAuth: (provider: 'google' | 'kakao') => Promise<void>;
+  linkIdentity: (provider: 'google' | 'kakao') => Promise<void>;
+  getLinkedProviders: () => Promise<string[]>;
   logout: () => Promise<void>;
 }
 
@@ -109,6 +111,26 @@ export const useAuthStore = create<AuthState>((set) => ({
       options,
     });
     if (error) throw new Error(error.message);
+  },
+
+  linkIdentity: async (provider: 'google' | 'kakao') => {
+    const options: any = {
+      redirectTo: window.location.origin + '/profile',
+    };
+    if (provider === 'kakao') {
+      options.scopes = 'profile_nickname profile_image';
+    }
+    const { error } = await supabase.auth.linkIdentity({
+      provider,
+      options,
+    });
+    if (error) throw new Error(error.message);
+  },
+
+  getLinkedProviders: async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+    return (user.identities || []).map((i: any) => i.provider);
   },
 
   logout: async () => {

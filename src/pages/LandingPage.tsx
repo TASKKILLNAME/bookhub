@@ -181,7 +181,7 @@ function LandingPage() {
                     padding: '4px 0', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)', zIndex: 200,
                   }}>
                     <button
-                      onClick={() => { setDropdownOpen(false); navigate('/profile'); }}
+                      onClick={() => { setDropdownOpen(false); navigate('/profile/settings'); }}
                       className="landing-dropdown-item"
                     >
                       <Settings size={15} />

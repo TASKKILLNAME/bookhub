@@ -160,7 +160,7 @@ function Header() {
                   }}
                 >
                   <button
-                    onClick={() => { setDropdownOpen(false); navigate('/profile'); }}
+                    onClick={() => { setDropdownOpen(false); navigate('/profile/settings'); }}
                     className="header-dropdown-item"
                   >
                     <Settings size={15} />

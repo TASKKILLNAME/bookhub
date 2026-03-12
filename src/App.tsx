@@ -10,6 +10,7 @@ import SharePage from './pages/SharePage';
 import StoriesPage from './pages/StoriesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ProfileSettingsPage from './pages/ProfileSettingsPage';
 
 function App() {
   const initialize = useAuthStore((s) => s.initialize);
@@ -27,6 +28,7 @@ function App() {
         {/* App pages - with header/layout */}
         <Route element={<Layout />}>
           <Route path="/profile" element={<MainPage />} />
+          <Route path="/profile/settings" element={<ProfileSettingsPage />} />
           <Route path="/record/new" element={<NewRecordPage />} />
           <Route path="/record/:id" element={<RecordDetailPage />} />
           <Route path="/share" element={<SharePage />} />
