@@ -22,11 +22,20 @@ interface KakaoBookResponse {
 
 export async function searchBooks(query: string, size = 10): Promise<KakaoBook[]> {
   try {
-    const res = await axios.get<KakaoBookResponse>('/kakao-api/v3/search/book', {
-      params: { query, size },
-      headers: { Authorization: `KakaoAK ${KAKAO_REST_API_KEY}` },
-    });
-    return res.data.documents;
+    if (import.meta.env.DEV) {
+      // 로컬: Vite 프록시 사용
+      const res = await axios.get<KakaoBookResponse>('/kakao-api/v3/search/book', {
+        params: { query, size },
+        headers: { Authorization: `KakaoAK ${KAKAO_REST_API_KEY}` },
+      });
+      return res.data.documents;
+    } else {
+      // 배포: Vercel serverless function 사용
+      const res = await axios.get<KakaoBookResponse>('/api/kakao-proxy', {
+        params: { q: query, size },
+      });
+      return res.data.documents;
+    }
   } catch (err) {
     console.error('Kakao book search failed:', err);
     return [];
