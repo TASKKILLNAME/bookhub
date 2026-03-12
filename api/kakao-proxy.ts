@@ -1,8 +1,6 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-
 const KAKAO_REST_API_KEY = 'ed9aa2e1bc5104fc9fd30c586e1a051f';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   const { q, size } = req.query;
 
   if (!q) {
